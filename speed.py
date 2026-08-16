@@ -1,19 +1,27 @@
+import random
+
 print("Speed!")
 input("press enter to play")
 print("pick your card")
 
 cards = ["AH","2H","3H", "4H", "5H", "6H", "7H", "8H", "9H", "JH", "QH", "KH","AS","2S","3S", "4S", "5S", "6S", "7S", "8S", "9S", "JS", "QS", "KS", "AD","2D","3D", "4D", "5D", "6D", "7D", "8D", "9D", "JD", "QD", "KD", "AC","2C","3C", "4C", "5C", "6C", "7C", "8C", "9C", "JC", "QC", "KC"]
 
+half_length = len(cards) // 2
+random_half = random.sample(cards, half_length)
+
 your_cards = []
 opps_cards = []
 
-for i in cards:
+for i in random_half:
     current_card = i
     print(current_card)
     pick = input("please enter s to select or r to reject card: ")
     if pick == "s":
         your_cards.append(current_card)
-    
-    print(your_cards)
+        print(your_cards)
+    else: 
+        print(your_cards)
+    print("oppents pick...")
 
+    
 
