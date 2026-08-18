@@ -11,29 +11,42 @@ shuffle_cards = random.sample(cards, len(cards))
 quarter = len(shuffle_cards) // 4
 
 your_cards = shuffle_cards[0:quarter]
-opps_cards1 = shuffle_cards[quarter : quarter * 2]
-opps_cards2 = shuffle_cards[quarter * 2 : quarter * 3]
-opps_cards3 = shuffle_cards[quarter * 3 :]
+opps_cards2 = shuffle_cards[quarter : quarter * 2]
+opps_cards3 = shuffle_cards[quarter * 2 : quarter * 3]
+opps_cards4 = shuffle_cards[quarter * 3 :]
 
 print(your_cards)
-print(opps_cards1)
 print(opps_cards2)
 print(opps_cards3)
+print(opps_cards4)
+
+
+first_player = random.choice(range(1, 4))
+if first_player == 1:
+    first_player = "You"
+elif first_player == 2:
+    first_player = "Player 2"
+elif first_player == 3:
+    first_player = "Player 3"
+elif first_player == 4:
+    first_player = "Player 4"
+
 
 print("Player to the left of the dealer goes first...")
-print("player 2 goes first")
+print(str(first_player) + " goes first")
 
-for i in opps_cards2:   
-    if "A" in i and "S" not in i:
-        player2_downcard = i
-        break
-    else:
-        if "S" not in i:
-            player2_downcard = i
+if first_player == "You":
+    downcard = input("pls select which card you want to play: ")
+else:
+    for i in opps_cards2:   
+        if "A" in i and "S" not in i:
+            downcard = i
+            break
+        else:
+            if "S" not in i:
+                downcard = i
 
-
-
-print("player 2 places down card: " + player2_downcard)
+print(str(first_player) + " places down card: " + downcard)
 
 
     
