@@ -37,7 +37,10 @@ print(str(first_player) + " goes first")
 
 if first_player == "You":
     downcard = input("pls select which card you want to play: ")
-else:
+    if downcard not in your_cards:
+        downcard = input("invalid input, please try again: ")
+
+elif first_player == "2":
     for i in opps_cards2:   
         if "A" in i and "S" not in i:
             downcard = i
@@ -46,7 +49,25 @@ else:
             if "S" not in i:
                 downcard = i
 
-print(str(first_player) + " places down card: " + downcard)
+elif first_player == "3":
+    for i in opps_cards3:   
+        if "A" in i and "S" not in i:
+            downcard = i
+            break
+        else:
+            if "S" not in i:
+                downcard = i
+
+elif first_player == "4":
+    for i in opps_cards4:   
+        if "A" in i and "S" not in i:
+            downcard = i
+            break
+        else:
+            if "S" not in i:
+                downcard = i
+
+print(str(first_player) + " places down card: " + downcard) 
 
 
     
