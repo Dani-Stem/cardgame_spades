@@ -16,10 +16,7 @@ class Deck:
     def build(self):
         suit = ['Hearts', 'Clubs', 'Diamonds', 'Spades']
         value = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
-        for i in value:
-            # modifier = i
-            # new_list = []
-            new_list = [v + " of " + s for s in suit for v in value]
+        new_list = [v + " of " + s for s in suit for v in value]
 
 
         print(new_list)
