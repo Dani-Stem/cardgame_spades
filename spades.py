@@ -5,9 +5,10 @@ pygame.init()
 screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("Spades")
 
-square_dims = (350, 250, 100, 100)
-SQUARE_COLOR = (0, 128, 255)   
-
+square_dims = (350, 250, 80, 110)
+square_border_dims = (348, 248, 84, 114)
+BLUE = (0, 128, 255) 
+WHITE = (255, 255, 255)  
 
 class Card:
     def __init__(self, value, suit):
@@ -56,7 +57,8 @@ while running:
 
     # Optional: Fill the background color (Red, Green, Blue)
     screen.fill((50, 205, 50))
-    pygame.draw.rect(screen, SQUARE_COLOR, square_dims)
+    pygame.draw.rect(screen, WHITE, square_border_dims)
+    pygame.draw.rect(screen, BLUE, square_dims)
 
     # Update the display to show changes
     pygame.display.flip()
