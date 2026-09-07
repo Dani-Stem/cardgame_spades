@@ -67,19 +67,11 @@ import pygame
 pygame.init()
 screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("Spades")
-
-s_square_dims = (350, 250, 80, 110)
-s_square_border_dims = (348, 248, 84, 114)
-s_square_dims1 = (348, 250, 80, 110)
-s_square_border_dims1 = (346, 248, 84, 114)
-square_dims = (350, 180, 10, 110)
-square_border_dims = (348, 178, 84, 114)
-square_dims1 = (348, 180, 80, 110)
-square_border_dims1 = (346, 178, 84, 114)
 BLUE = (0, 128, 255) 
 WHITE = (255, 255, 255)  
+BLACK = (0, 0, 0)
 
-start_screen = True
+game_sceen = "start"
 
 class Card:
     def __init__(self, value, suit):
@@ -119,6 +111,8 @@ class Deck:
 current_deck = Deck()
 font = pygame.font.Font(None, 50)
 font0 = pygame.font.Font(None, 40)
+font1 = pygame.font.Font(None,20)
+font2 = pygame.font.Font(None,30)
 
 running = True
 while running:
@@ -131,12 +125,12 @@ while running:
     # Optional: Fill the background color (Red, Green, Blue)
     screen.fill((50, 205, 50))
             
-    if start_screen:
+    if game_sceen == "start":
 
-        pygame.draw.rect(screen, WHITE, s_square_border_dims)
-        pygame.draw.rect(screen, BLUE, s_square_dims)
-        pygame.draw.rect(screen, WHITE, s_square_border_dims1)
-        pygame.draw.rect(screen, BLUE, s_square_dims1)
+        pygame.draw.rect(screen, WHITE, (348, 248, 84, 114))
+        pygame.draw.rect(screen, BLUE, (350, 250, 80, 110))
+        pygame.draw.rect(screen, WHITE, (346, 248, 84, 114))
+        pygame.draw.rect(screen, BLUE, (348, 250, 80, 110))
 
         text_surface = font.render("Welcome to Spades", True, WHITE)
         screen.blit(text_surface, (220, 50))
@@ -145,8 +139,34 @@ while running:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN: 
-                start_screen = False
-                
+                game_sceen = "play"
+
+    if game_sceen == "play":
+
+        pygame.draw.rect(screen, WHITE, (108, 248, 84, 114))
+        pygame.draw.rect(screen, BLUE, (110, 250, 80, 110))
+        pygame.draw.rect(screen, WHITE, (106, 248, 84, 114))
+        pygame.draw.rect(screen, BLUE, (108, 250, 80, 110))
+
+        pygame.draw.rect(screen, WHITE, (608, 248, 84, 114))
+        pygame.draw.rect(screen, BLUE, (610, 250, 80, 110))
+        pygame.draw.rect(screen, WHITE, (606, 248, 84, 114))
+        pygame.draw.rect(screen, BLUE, (608, 250, 80, 110))
+
+        pygame.draw.rect(screen, WHITE, (358, 48, 84, 114))
+        pygame.draw.rect(screen, BLUE, (360, 50, 80, 110))
+        pygame.draw.rect(screen, WHITE, (356, 48, 84, 114))
+        pygame.draw.rect(screen, BLUE, (358, 50, 80, 110))
+
+        pygame.draw.rect(screen, WHITE, (358, 448, 84, 114))
+        pygame.draw.rect(screen, BLUE, (360, 450, 80, 110))
+        pygame.draw.rect(screen, WHITE, (356, 448, 84, 114))
+        pygame.draw.rect(screen, BLUE, (358, 450, 80, 110))
+
+        text_surface = font2.render("Player to the Left of Dealer goes First", True, BLACK)
+        screen.blit(text_surface, (220, 350))
+        text_surface0 = font1.render("Press Enter to Continue", True, BLACK)
+        screen.blit(text_surface0, (455, 400))
 
     # Update the display to show changes
     pygame.display.flip()
