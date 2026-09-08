@@ -61,6 +61,7 @@
 #                 downcard = i
 
 # print(str(first_player) + " places down card: " + downcard) 
+
 import random
 import pygame
 
@@ -111,8 +112,8 @@ class Deck:
 current_deck = Deck()
 font = pygame.font.Font(None, 50)
 font0 = pygame.font.Font(None, 40)
-font1 = pygame.font.Font(None,20)
-font2 = pygame.font.Font(None,30)
+font1 = pygame.font.Font(None,15)
+font2 = pygame.font.Font(None,25)
 
 running = True
 while running:
@@ -164,9 +165,40 @@ while running:
         pygame.draw.rect(screen, BLUE, (358, 450, 80, 110))
 
         text_surface = font2.render("Player to the Left of Dealer goes First", True, BLACK)
-        screen.blit(text_surface, (220, 350))
+        screen.blit(text_surface, (240, 300))
         text_surface0 = font1.render("Press Enter to Continue", True, BLACK)
-        screen.blit(text_surface0, (455, 400))
+        screen.blit(text_surface0, (430, 320))
+
+        dealer = 2
+
+        if dealer == 1:
+            your_label = "Dealer"
+        else: 
+            your_label = "Your Hand"
+
+        if dealer == 2:
+            player2_label = "Dealer"
+        else: 
+            player2_label = "Player 2"
+        
+        if dealer == 3:
+            player3_label = "Dealer"
+        else:
+            player3_label = "Player 3"
+
+        if dealer == 4:
+            player4_label = "Dealer"
+        else:
+            player4_label = "Player 4"
+
+        text_surface0 = font1.render(your_label, True, BLACK)
+        screen.blit(text_surface0, (370, 430))
+        text_surface0 = font1.render(player2_label, True, BLACK)
+        screen.blit(text_surface0, (130, 230))
+        text_surface0 = font1.render(player3_label, True, BLACK)
+        screen.blit(text_surface0, (630, 230))
+        text_surface0 = font1.render(player4_label, True, BLACK)
+        screen.blit(text_surface0, (375, 30))
 
     # Update the display to show changes
     pygame.display.flip()
