@@ -265,6 +265,16 @@ class Game:
                 text_surface0 = self.font1.render(player4_label, True, self.BLACK)
                 self.screen.blit(text_surface0, (375, 30))
 
+                # if event.type == pygame.KEYDOWN:
+                #     if event.key == pygame.K_RETURN:
+                #         if self.dealer == 3:
+                #             self.game_screen = "play_yourturn"
+                #         elif self.dealer == 1:
+                #             self.game_screen = "play_2turn"
+                #         elif self.dealer == 2:
+                #             self.game_screen = "play_1turn"
+
+
             # Update the display to show changes
             pygame.display.flip()
 
