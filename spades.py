@@ -63,7 +63,6 @@
 
 import random
 import pygame
-import emoji
 
 game_sceen = "start"
 
@@ -87,9 +86,7 @@ class Deck:
     def build(self):
         suit = ["Hearts", "Clubs", "Diamonds", "Spades"]
         value = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
-        self.cards = [v + " of " + s for s in suit for v in value]
-
-        return (suit, value)
+        self.cards = [(s, v) for s in suit for v in value]
 
     def shuffle(self):
         if len(self.cards) > 1:
@@ -116,17 +113,19 @@ class Game:
         pygame.display.set_caption("Spades")
 
         self.current_deck = Deck()
-        self.build = self.current_deck.build()
         self.dealer = random.randint(1, 4)
         self.game_screen = "start"
-        self.suit = self.build[0] 
-        self.value = self.build[1]
+        self.suit = ""
+        self.value = ""
         self.your_hand = self.current_deck.deal()
 
         self.font = pygame.font.Font(None, 50)
         self.font0 = pygame.font.Font(None, 40)
         self.font1 = pygame.font.Font(None, 15)
         self.font2 = pygame.font.Font(None, 25)
+        self.spade_image = pygame.transform.smoothscale(
+            pygame.image.load("spade.png").convert_alpha(), (42, 42)
+        )
 
         self.BLUE = (0, 128, 255)
         self.WHITE = (255, 255, 255)
@@ -142,7 +141,7 @@ class Game:
         height = 110
         corner_radius = 8
 
-        color = self.RED if suit in ["H", "D"] else self.BLACK
+        color = self.RED if suit in ["Hearts", "Diamonds"] else self.BLACK
 
         card_base = pygame.Rect(x, y, width, height)
         pygame.draw.rect(surface, self.WHITE, card_base, border_radius=corner_radius)
@@ -151,14 +150,18 @@ class Game:
             surface, self.CARD_BORDER, card_base, width=2, border_radius=corner_radius
         )
 
-        text_surface = self.font2.render(f"{rank}{suit}", True, color)
+        text_surface = self.font2.render(rank, True, color)
         surface.blit(text_surface, (x + 5, y + 5))
 
-        br_text_surface = self.font2.render(f"{rank}{suit}", True, color)
+        br_text_surface = self.font2.render(rank, True, color)
         text_w, text_h = br_text_surface.get_size()
         surface.blit(
             br_text_surface, (x + width - text_w - 10, y + height - text_h - 10)
         )
+
+        if suit == "Spades":
+            spade_rect = self.spade_image.get_rect(center=card_base.center)
+            surface.blit(self.spade_image, spade_rect)
 
     def run(self):
         running = True
@@ -203,8 +206,11 @@ class Game:
 
                 card_placement = 120
 
-                for i in self.your_hand:
-                    self.draw_card(self.screen, card_placement, 450, self.value, self.suit)
+                for i in range(len(self.your_hand)):
+                    self.suit, self.value = self.your_hand[i]
+                    self.draw_card(
+                        self.screen, card_placement, 450, self.value, self.suit
+                    )
                     card_placement += 40
 
                 text_surface = self.font2.render(
