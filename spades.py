@@ -124,8 +124,13 @@ class Game:
         self.font1 = pygame.font.Font(None, 15)
         self.font2 = pygame.font.Font(None, 25)
         self.spade_image = pygame.transform.smoothscale(
-            pygame.image.load("spade.png").convert_alpha(), (42, 42)
-        )
+            pygame.image.load("spade.png").convert_alpha(), (42, 42))
+        self.heart_image = pygame.transform.smoothscale(
+            pygame.image.load("Heart.png").convert_alpha(), (42, 42))
+        self.club_image = pygame.transform.smoothscale(
+            pygame.image.load("Club.png").convert_alpha(), (42, 42))
+        self.diamond_image = pygame.transform.smoothscale(
+            pygame.image.load("Diamond.png").convert_alpha(), (42, 42))
 
         self.BLUE = (0, 128, 255)
         self.WHITE = (255, 255, 255)
@@ -162,6 +167,15 @@ class Game:
         if suit == "Spades":
             spade_rect = self.spade_image.get_rect(center=card_base.center)
             surface.blit(self.spade_image, spade_rect)
+        elif suit == "Hearts":
+            heart_rect = self.heart_image.get_rect(center=card_base.center)
+            surface.blit(self.heart_image, heart_rect)
+        elif suit == "Clubs":
+            club_rect = self.club_image.get_rect(center=card_base.center)
+            surface.blit(self.club_image, club_rect)
+        elif suit == "Diamonds":
+            diamond_rect = self.diamond_image.get_rect(center=card_base.center)
+            surface.blit(self.diamond_image, diamond_rect)
 
     def run(self):
         running = True
@@ -204,14 +218,14 @@ class Game:
                 pygame.draw.rect(self.screen, self.WHITE, (356, 48, 84, 114))
                 pygame.draw.rect(self.screen, self.BLUE, (358, 50, 80, 110))
 
-                card_placement = 120
+                card_placement = 60
 
                 for i in range(len(self.your_hand)):
                     self.suit, self.value = self.your_hand[i]
                     self.draw_card(
                         self.screen, card_placement, 450, self.value, self.suit
                     )
-                    card_placement += 40
+                    card_placement += 50
 
                 text_surface = self.font2.render(
                     "Player to the Left of Dealer goes First", True, self.BLACK
