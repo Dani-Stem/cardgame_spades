@@ -115,6 +115,7 @@ class Game:
         self.current_deck = Deck()
         self.dealer = random.randint(1, 4)
         self.game_screen = "start"
+        self.prompt = ""
         self.suit = ""
         self.value = ""
         self.your_hand = self.current_deck.deal()
@@ -183,9 +184,13 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                elif event.type == pygame.KEYDOWN and self.game_screen == "start":
+                elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
-                        self.game_screen = "play"
+                        if self.game_screen == "start":
+                            self.game_screen = "play"
+                        elif self.dealer == 3 and self.prompt == "":
+                            self.prompt = "player_you"
+
 
             self.screen.fill((50, 205, 50))
 
@@ -227,15 +232,6 @@ class Game:
                     )
                     card_placement += 50
 
-                text_surface = self.font2.render(
-                    "Player to the Left of Dealer goes First", True, self.BLACK
-                )
-                self.screen.blit(text_surface, (240, 300))
-                text_surface0 = self.font1.render(
-                    "Press Enter to Continue", True, self.BLACK
-                )
-                self.screen.blit(text_surface0, (430, 320))
-
                 if self.dealer == 1:
                     your_label = "Dealer"
                 else:
@@ -256,6 +252,38 @@ class Game:
                 else:
                     player4_label = "Player 4"
 
+                if self.dealer == 3 and self.prompt == "":
+                    text_surface = self.font2.render(
+                        "You go first", True, self.BLACK
+                    )
+                    self.screen.blit(text_surface, (240, 300))
+                    text_surface0 = self.font1.render(
+                        "Press Enter to Continue", True, self.BLACK
+                    )
+                    self.screen.blit(text_surface0, (430, 320))
+                elif self.prompt == "player_you":
+                    text_surface = self.font2.render(
+                        "Please select a card", True, self.BLACK
+                    )
+                    self.screen.blit(text_surface, (240, 300))
+                    text_surface0 = self.font1.render(
+                        "Press Enter to Continue", True, self.BLACK
+                    )
+                    self.screen.blit(text_surface0, (430, 320))
+
+
+                
+
+                else:
+                    text_surface = self.font2.render(
+                        "Player to the Left of Dealer goes First", True, self.BLACK
+                    )
+                    self.screen.blit(text_surface, (240, 300))
+                    text_surface0 = self.font1.render(
+                        "Press Enter to Continue", True, self.BLACK
+                    )
+                    self.screen.blit(text_surface0, (430, 320))
+
                 text_surface0 = self.font1.render(your_label, True, self.BLACK)
                 self.screen.blit(text_surface0, (370, 430))
                 text_surface0 = self.font1.render(player2_label, True, self.BLACK)
@@ -264,17 +292,7 @@ class Game:
                 self.screen.blit(text_surface0, (630, 230))
                 text_surface0 = self.font1.render(player4_label, True, self.BLACK)
                 self.screen.blit(text_surface0, (375, 30))
-
-                # if event.type == pygame.KEYDOWN:
-                #     if event.key == pygame.K_RETURN:
-                #         if self.dealer == 3:
-                #             self.game_screen = "play_yourturn"
-                #         elif self.dealer == 1:
-                #             self.game_screen = "play_2turn"
-                #         elif self.dealer == 2:
-                #             self.game_screen = "play_1turn"
-
-
+            
             # Update the display to show changes
             pygame.display.flip()
 
