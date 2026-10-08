@@ -63,6 +63,7 @@
 
 import random
 import pygame
+import time
 
 game_sceen = "start"
 
@@ -94,14 +95,14 @@ class Deck:
 
     def deal(self):
         quarter_size = len(self.cards) // 4
-        dealers_hand = self.cards[:quarter_size]
-        your_hand = self.cards[quarter_size : quarter_size * 2]
-        opp_hand0 = self.cards[quarter_size * 2 : quarter_size * 3]
-        opp_hand1 = self.cards[quarter_size * 3 :]
-        print("dealers hand: " + str(dealers_hand))
+        your_hand = self.cards[:quarter_size]
+        opp_hand0 = self.cards[quarter_size : quarter_size * 2]
+        opp_hand1 = self.cards[quarter_size * 2 : quarter_size * 3]
+        opp_hand2 = self.cards[quarter_size * 3 :]
         print("your hand: " + str(your_hand))
         print("Opp 0 hand: " + str(opp_hand0))
         print("Opp 1 hand: " + str(opp_hand1))
+        print("Opp 2 hand: " + str(opp_hand2))
 
         return your_hand
 
@@ -113,12 +114,14 @@ class Game:
         pygame.display.set_caption("Spades")
 
         self.current_deck = Deck()
-        self.dealer = random.randint(1, 4)
+        self.dealer = 3 #random.randint(1, 4)
         self.game_screen = "start"
+        self.current_player = ""
         self.prompt = ""
         self.suit = ""
         self.value = ""
         self.your_hand = self.current_deck.deal()
+        self.hands_played = []
 
         self.font = pygame.font.Font(None, 50)
         self.font0 = pygame.font.Font(None, 40)
@@ -188,8 +191,6 @@ class Game:
                     if event.key == pygame.K_RETURN:
                         if self.game_screen == "start":
                             self.game_screen = "play"
-                        elif self.dealer == 3 and self.prompt == "":
-                            self.prompt = "player_you"
 
 
             self.screen.fill((50, 205, 50))
@@ -223,6 +224,13 @@ class Game:
                 pygame.draw.rect(self.screen, self.WHITE, (356, 48, 84, 114))
                 pygame.draw.rect(self.screen, self.BLUE, (358, 50, 80, 110))
 
+                for i in range(len(self.hands_played)):
+                    self.suit, self.value = self.hands_played[i]
+                    self.draw_card(
+                        self.screen, 300, 220, self.value, self.suit
+                    )
+
+
                 card_placement = 60
 
                 for i in range(len(self.your_hand)):
@@ -234,45 +242,53 @@ class Game:
 
                 if self.dealer == 1:
                     your_label = "Dealer"
+                    self.current_player = '2'
                 else:
                     your_label = "Your Hand"
 
                 if self.dealer == 2:
                     player2_label = "Dealer"
+                    self.current_player = '4'
                 else:
                     player2_label = "Player 2"
 
                 if self.dealer == 3:
                     player3_label = "Dealer"
+                    self.current_player = 'you'
                 else:
                     player3_label = "Player 3"
 
                 if self.dealer == 4:
                     player4_label = "Dealer"
+                    self.current_player = '3'
                 else:
                     player4_label = "Player 4"
 
-                if self.dealer == 3 and self.prompt == "":
+                if self.dealer == 3:
                     text_surface = self.font2.render(
-                        "You go first", True, self.BLACK
+                        "Your Move, Pls select a card", True, self.BLACK
                     )
-                    self.screen.blit(text_surface, (240, 300))
-                    text_surface0 = self.font1.render(
-                        "Press Enter to Continue", True, self.BLACK
-                    )
-                    self.screen.blit(text_surface0, (430, 320))
-                elif self.prompt == "player_you":
-                    text_surface = self.font2.render(
-                        "Please select a card", True, self.BLACK
-                    )
-                    self.screen.blit(text_surface, (240, 300))
-                    text_surface0 = self.font1.render(
-                        "Press Enter to Continue", True, self.BLACK
-                    )
-                    self.screen.blit(text_surface0, (430, 320))
+                    self.screen.blit(text_surface, (280, 350))
+                    # text_surface0 = self.font1.render(
+                    #     "Press Enter to Continue", True, self.BLACK
+                    # )
+                    # self.screen.blit(text_surface0, (430, 420))
 
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        # event.pos gives (x, y) coordinates at the exact moment of the click
+                        print(f"Mouse clicked at: {event.pos}")
 
-                
+                        card_pressed = 0
+
+                        if ((event.pos[0] > 60 and event.pos[0] < 110) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                            print("card1pressed")
+                            time.sleep(1)
+                            card_pressed = 1 
+
+                            if card_pressed == 1: 
+                                self.hands_played.append(self.your_hand.pop(0))
+                                print(self.hands_played)
+
 
                 else:
                     text_surface = self.font2.render(
@@ -298,6 +314,5 @@ class Game:
 
         # Clean up and close the program
         pygame.quit()
-
 
 Game()
