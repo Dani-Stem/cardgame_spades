@@ -114,7 +114,7 @@ class Game:
         pygame.display.set_caption("Spades")
 
         self.current_deck = Deck()
-        self.dealer = 3 #random.randint(1, 4)
+        self.dealer = random.randint(1, 4)
         self.game_screen = "start"
         self.current_player = ""
         self.prompt = ""
@@ -264,18 +264,13 @@ class Game:
                 else:
                     player4_label = "Player 4"
 
-                if self.dealer == 3:
+                if self.current_player == "you":
                     text_surface = self.font2.render(
                         "Your Move, Pls select a card", True, self.BLACK
                     )
                     self.screen.blit(text_surface, (280, 350))
-                    # text_surface0 = self.font1.render(
-                    #     "Press Enter to Continue", True, self.BLACK
-                    # )
-                    # self.screen.blit(text_surface0, (430, 420))
 
                     if event.type == pygame.MOUSEBUTTONDOWN:
-                        # event.pos gives (x, y) coordinates at the exact moment of the click
                         print(f"Mouse clicked at: {event.pos}")
 
                         card_pressed = 0
@@ -288,11 +283,11 @@ class Game:
                             if card_pressed == 1: 
                                 self.hands_played.append(self.your_hand.pop(0))
                                 print(self.hands_played)
-
+                                self.current_player = "2"
 
                 else:
                     text_surface = self.font2.render(
-                        "Player to the Left of Dealer goes First", True, self.BLACK
+                        "Its Player " + self.current_player + " move.", True, self.BLACK
                     )
                     self.screen.blit(text_surface, (240, 300))
                     text_surface0 = self.font1.render(
