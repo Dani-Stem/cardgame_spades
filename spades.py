@@ -96,15 +96,15 @@ class Deck:
     def deal(self):
         quarter_size = len(self.cards) // 4
         your_hand = self.cards[:quarter_size]
-        opp_hand0 = self.cards[quarter_size : quarter_size * 2]
-        opp_hand1 = self.cards[quarter_size * 2 : quarter_size * 3]
-        opp_hand2 = self.cards[quarter_size * 3 :]
+        opp_hand2 = self.cards[quarter_size : quarter_size * 2]
+        opp_hand3 = self.cards[quarter_size * 2 : quarter_size * 3]
+        opp_hand4 = self.cards[quarter_size * 3 :]
         print("your hand: " + str(your_hand))
-        print("Opp 0 hand: " + str(opp_hand0))
-        print("Opp 1 hand: " + str(opp_hand1))
         print("Opp 2 hand: " + str(opp_hand2))
+        print("Opp 3 hand: " + str(opp_hand3))
+        print("Opp 4 hand: " + str(opp_hand4))
 
-        return your_hand
+        return your_hand, opp_hand2, opp_hand3, opp_hand4
 
 
 class Game:
@@ -114,14 +114,15 @@ class Game:
         pygame.display.set_caption("Spades")
 
         self.current_deck = Deck()
-        self.dealer = random.randint(1, 4)
+        self.dealer = 3 #random.randint(1, 4)
         self.game_screen = "start"
         self.current_player = ""
         self.prompt = ""
         self.suit = ""
         self.value = ""
-        self.your_hand = self.current_deck.deal()
-        self.hands_played = []
+        self.your_hand, self.opp_hand2, self.opp_hand3, self.opp_hand4 = self.current_deck.deal()
+        self.hands_played0 = []
+        self.hands_played1 = []
 
         self.font = pygame.font.Font(None, 50)
         self.font0 = pygame.font.Font(None, 40)
@@ -224,10 +225,16 @@ class Game:
                 pygame.draw.rect(self.screen, self.WHITE, (356, 48, 84, 114))
                 pygame.draw.rect(self.screen, self.BLUE, (358, 50, 80, 110))
 
-                for i in range(len(self.hands_played)):
-                    self.suit, self.value = self.hands_played[i]
+                for i in range(len(self.hands_played0)):
+                    self.suit, self.value = self.hands_played0[i]
                     self.draw_card(
                         self.screen, 300, 220, self.value, self.suit
+                    )
+
+                for i in range(len(self.hands_played1)):
+                    self.suit, self.value = self.hands_played1[i]
+                    self.draw_card(
+                        self.screen, 400, 220, self.value, self.suit
                     )
 
 
@@ -242,33 +249,31 @@ class Game:
 
                 if self.dealer == 1:
                     your_label = "Dealer"
-                    self.current_player = '2'
                 else:
                     your_label = "Your Hand"
 
                 if self.dealer == 2:
                     player2_label = "Dealer"
-                    self.current_player = '4'
                 else:
                     player2_label = "Player 2"
 
                 if self.dealer == 3:
                     player3_label = "Dealer"
-                    self.current_player = 'you'
                 else:
                     player3_label = "Player 3"
 
                 if self.dealer == 4:
                     player4_label = "Dealer"
-                    self.current_player = '3'
                 else:
                     player4_label = "Player 4"
 
-                if self.current_player == "you":
+                if self.dealer == 3:
                     text_surface = self.font2.render(
                         "Your Move, Pls select a card", True, self.BLACK
                     )
                     self.screen.blit(text_surface, (280, 350))
+
+                    self.current_player = "you"
 
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         print(f"Mouse clicked at: {event.pos}")
@@ -281,19 +286,31 @@ class Game:
                             card_pressed = 1 
 
                             if card_pressed == 1: 
-                                self.hands_played.append(self.your_hand.pop(0))
-                                print(self.hands_played)
+                                self.hands_played0.append(self.your_hand.pop(0))
+                                print(self.hands_played0)
                                 self.current_player = "2"
 
-                else:
+
+                if self.current_player != "you" and self.dealer != 0:
+                    self.screen.blit(text_surface0, (430, 320))
+
+                    self.hands_played1.append(self.opp_hand2.pop(0))
+
+                    self.dealer = 0
+
+                if self.dealer == 0:
+
+                    outcome = ""
+
                     text_surface = self.font2.render(
-                        "Its Player " + self.current_player + " move.", True, self.BLACK
+                        "Player " + self.current_player + " placed a card down and " + outcome + ".", True, self.BLACK
                     )
-                    self.screen.blit(text_surface, (240, 300))
+                    self.screen.blit(text_surface, (240, 350))
+
                     text_surface0 = self.font1.render(
                         "Press Enter to Continue", True, self.BLACK
                     )
-                    self.screen.blit(text_surface0, (430, 320))
+                    self.screen.blit(text_surface0, (255, 100))
 
                 text_surface0 = self.font1.render(your_label, True, self.BLACK)
                 self.screen.blit(text_surface0, (370, 430))
