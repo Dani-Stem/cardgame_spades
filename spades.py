@@ -121,8 +121,10 @@ class Game:
         self.suit = ""
         self.value = ""
         self.your_hand, self.opp_hand2, self.opp_hand3, self.opp_hand4 = self.current_deck.deal()
-        self.hands_played0 = []
-        self.hands_played1 = []
+        self.hands_played_you = []
+        self.hands_played2 = []
+        self.hands_played3 = []
+        self.hands_played4 = []
 
         self.font = pygame.font.Font(None, 50)
         self.font0 = pygame.font.Font(None, 40)
@@ -140,6 +142,7 @@ class Game:
         self.BLUE = (0, 128, 255)
         self.WHITE = (255, 255, 255)
         self.BLACK = (0, 0, 0)
+        self.YELLOW = (255, 255, 0)
         self.CARD_BORDER = (200, 200, 200)
         self.RED = (200, 0, 0)
 
@@ -192,6 +195,8 @@ class Game:
                     if event.key == pygame.K_RETURN:
                         if self.game_screen == "start":
                             self.game_screen = "play"
+                        # if self.dealer == 0:
+                        #     self.dealer == self.
 
 
             self.screen.fill((50, 205, 50))
@@ -210,33 +215,44 @@ class Game:
                 self.screen.blit(text_surface0, (255, 100))
 
             if self.game_screen == "play":
-                pygame.draw.rect(self.screen, self.WHITE, (108, 248, 84, 114))
-                pygame.draw.rect(self.screen, self.BLUE, (110, 250, 80, 110))
-                pygame.draw.rect(self.screen, self.WHITE, (106, 248, 84, 114))
-                pygame.draw.rect(self.screen, self.BLUE, (108, 250, 80, 110))
+                pygame.draw.rect(self.screen, self.WHITE, (78, 248, 84, 114))
+                pygame.draw.rect(self.screen, self.BLUE, (80, 250, 80, 110))
+                pygame.draw.rect(self.screen, self.WHITE, (76, 248, 84, 114))
+                pygame.draw.rect(self.screen, self.BLUE, (78, 250, 80, 110))
 
-                pygame.draw.rect(self.screen, self.WHITE, (608, 248, 84, 114))
-                pygame.draw.rect(self.screen, self.BLUE, (610, 250, 80, 110))
-                pygame.draw.rect(self.screen, self.WHITE, (606, 248, 84, 114))
-                pygame.draw.rect(self.screen, self.BLUE, (608, 250, 80, 110))
+                pygame.draw.rect(self.screen, self.WHITE, (638, 248, 84, 114))
+                pygame.draw.rect(self.screen, self.BLUE, (640, 250, 80, 110))
+                pygame.draw.rect(self.screen, self.WHITE, (636, 248, 84, 114))
+                pygame.draw.rect(self.screen, self.BLUE, (638, 250, 80, 110))
 
                 pygame.draw.rect(self.screen, self.WHITE, (358, 48, 84, 114))
                 pygame.draw.rect(self.screen, self.BLUE, (360, 50, 80, 110))
                 pygame.draw.rect(self.screen, self.WHITE, (356, 48, 84, 114))
                 pygame.draw.rect(self.screen, self.BLUE, (358, 50, 80, 110))
 
-                for i in range(len(self.hands_played0)):
-                    self.suit, self.value = self.hands_played0[i]
+                for i in range(len(self.hands_played_you)):
+                    self.suit, self.value = self.hands_played_you[i]
                     self.draw_card(
-                        self.screen, 300, 220, self.value, self.suit
+                        self.screen, 355, 300, self.value, self.suit
+                    )
+                
+                for i in range(len(self.hands_played2)):
+                    self.suit, self.value = self.hands_played2[i]
+                    self.draw_card(
+                        self.screen, 80, 250, self.value, self.suit
                     )
 
-                for i in range(len(self.hands_played1)):
-                    self.suit, self.value = self.hands_played1[i]
+                for i in range(len(self.hands_played3)):
+                    self.suit, self.value = self.hands_played3[i]
                     self.draw_card(
-                        self.screen, 400, 220, self.value, self.suit
+                        self.screen, 640, 250, self.value, self.suit
                     )
 
+                for i in range(len(self.hands_played4)):
+                    self.suit, self.value = self.hands_played4[i]
+                    self.draw_card(
+                        self.screen, 360, 50, self.value, self.suit
+                    )
 
                 card_placement = 60
 
@@ -271,7 +287,7 @@ class Game:
                     text_surface = self.font2.render(
                         "Your Move, Pls select a card", True, self.BLACK
                     )
-                    self.screen.blit(text_surface, (280, 350))
+                    self.screen.blit(text_surface, (280, 280))
 
                     self.current_player = "you"
 
@@ -286,38 +302,60 @@ class Game:
                             card_pressed = 1 
 
                             if card_pressed == 1: 
-                                self.hands_played0.append(self.your_hand.pop(0))
-                                print(self.hands_played0)
+                                self.hands_played_you.append(self.your_hand.pop(0))
+                                print(self.hands_played_you)
                                 self.current_player = "2"
 
 
                 if self.current_player != "you" and self.dealer != 0:
                     self.screen.blit(text_surface0, (430, 320))
 
-                    self.hands_played1.append(self.opp_hand2.pop(0))
+                    self.hands_played2.append(self.opp_hand2.pop(0))
+                    self.hands_played3.append(self.opp_hand3.pop(0))
+                    self.hands_played4.append(self.opp_hand4.pop(0))
 
                     self.dealer = 0
 
                 if self.dealer == 0:
 
-                    outcome = ""
+                    winner = "2"
+                    
+                    if winner != "you":
+                        text_surface = self.font2.render(
+                            "Player " + winner + " has the highest card, they win this round.", True, self.BLACK
+                        )
+                        self.screen.blit(text_surface, (190, 240))
+                    else: 
+                        text_surface = self.font2.render(
+                            "You have the highest card, you win!", True, self.BLACK
+                        )
+                        self.screen.blit(text_surface, (270, 240))
 
-                    text_surface = self.font2.render(
-                        "Player " + self.current_player + " placed a card down and " + outcome + ".", True, self.BLACK
-                    )
-                    self.screen.blit(text_surface, (240, 350))
 
                     text_surface0 = self.font1.render(
                         "Press Enter to Continue", True, self.BLACK
                     )
-                    self.screen.blit(text_surface0, (255, 100))
+                    self.screen.blit(text_surface0, (435, 270))
+
+                    text_surface0 = self.font.render(
+                        "____", True, self.YELLOW
+                    )
+                    if winner == "you":
+                        win_x = 358
+                        win_y = 380
+                    else:
+                        win_x = 358
+                        win_y = 380
+                        
+                    self.screen.blit(text_surface0, (win_x, win_y))
+
 
                 text_surface0 = self.font1.render(your_label, True, self.BLACK)
-                self.screen.blit(text_surface0, (370, 430))
+                self.screen.blit(text_surface0, (370, 425))
                 text_surface0 = self.font1.render(player2_label, True, self.BLACK)
-                self.screen.blit(text_surface0, (130, 230))
+                self.screen.blit(text_surface0, (100, 230))
                 text_surface0 = self.font1.render(player3_label, True, self.BLACK)
-                self.screen.blit(text_surface0, (630, 230))
+                self.screen.blit(text_surface0, (660, 230))
                 text_surface0 = self.font1.render(player4_label, True, self.BLACK)
                 self.screen.blit(text_surface0, (375, 30))
             
