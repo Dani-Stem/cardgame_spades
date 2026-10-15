@@ -195,8 +195,7 @@ class Game:
                     if event.key == pygame.K_RETURN:
                         if self.game_screen == "start":
                             self.game_screen = "play"
-                        # if self.dealer == 0:
-                        #     self.dealer == self.
+                        
 
 
             self.screen.fill((50, 205, 50))
@@ -297,14 +296,83 @@ class Game:
                         card_pressed = 0
 
                         if ((event.pos[0] > 60 and event.pos[0] < 110) and (event.pos[1] > 450 and event.pos[1] < 560)):
-                            print("card1pressed")
                             time.sleep(1)
-                            card_pressed = 1 
+                            self.hands_played_you.append(self.your_hand.pop(0))
+                            print(self.hands_played_you)
+                            self.current_player = "2"
 
-                            if card_pressed == 1: 
-                                self.hands_played_you.append(self.your_hand.pop(0))
-                                print(self.hands_played_you)
-                                self.current_player = "2"
+                        if ((event.pos[0] > 110 and event.pos[0] < 160) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                            time.sleep(1)
+                            self.hands_played_you.append(self.your_hand.pop(1))
+                            print(self.hands_played_you)
+                            self.current_player = "2"
+
+                        if ((event.pos[0] > 160 and event.pos[0] < 210) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                            time.sleep(1)
+                            self.hands_played_you.append(self.your_hand.pop(2))
+                            print(self.hands_played_you)
+                            self.current_player = "2"
+
+                        if ((event.pos[0] > 210 and event.pos[0] < 260) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                            time.sleep(1)
+                            self.hands_played_you.append(self.your_hand.pop(3))
+                            print(self.hands_played_you)
+                            self.current_player = "2"
+
+                        if ((event.pos[0] > 260 and event.pos[0] < 310) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                            time.sleep(1)
+                            self.hands_played_you.append(self.your_hand.pop(4))
+                            print(self.hands_played_you)
+                            self.current_player = "2"
+
+                        if ((event.pos[0] > 310 and event.pos[0] < 360) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                            time.sleep(1)
+                            self.hands_played_you.append(self.your_hand.pop(5))
+                            print(self.hands_played_you)
+                            self.current_player = "2"
+
+                        if ((event.pos[0] > 360 and event.pos[0] < 410) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                            time.sleep(1)
+                            self.hands_played_you.append(self.your_hand.pop(6))
+                            print(self.hands_played_you)
+                            self.current_player = "2"
+
+                        if ((event.pos[0] > 410 and event.pos[0] < 460) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                            time.sleep(1)
+                            self.hands_played_you.append(self.your_hand.pop(7))
+                            print(self.hands_played_you)
+                            self.current_player = "2"
+
+                        if ((event.pos[0] > 460 and event.pos[0] < 510) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                            time.sleep(1)
+                            self.hands_played_you.append(self.your_hand.pop(8))
+                            print(self.hands_played_you)
+                            self.current_player = "2"
+            
+                        if ((event.pos[0] > 510 and event.pos[0] < 560) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                            time.sleep(1)
+                            self.hands_played_you.append(self.your_hand.pop(9))
+                            print(self.hands_played_you)
+                            self.current_player = "2"
+
+                        if ((event.pos[0] > 560 and event.pos[0] < 610) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                            time.sleep(1)
+                            self.hands_played_you.append(self.your_hand.pop(10))
+                            print(self.hands_played_you)
+                            self.current_player = "2"
+
+                        if ((event.pos[0] > 610 and event.pos[0] < 660) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                            time.sleep(1)
+                            self.hands_played_you.append(self.your_hand.pop(11))
+                            print(self.hands_played_you)
+                            self.current_player = "2"
+
+                        if ((event.pos[0] > 660 and event.pos[0] < 710) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                            time.sleep(1)
+                            self.hands_played_you.append(self.your_hand.pop(12))
+                            print(self.hands_played_you)
+                            self.current_player = "2"
+
 
 
                 if self.current_player != "you" and self.dealer != 0:
@@ -318,7 +386,7 @@ class Game:
 
                 if self.dealer == 0:
 
-                    winner = "2"
+                    winner = "4"
                     
                     if winner != "you":
                         text_surface = self.font2.render(
@@ -343,10 +411,16 @@ class Game:
                     if winner == "you":
                         win_x = 358
                         win_y = 380
-                    else:
+                    elif winner == "2":
+                        win_x = 88
+                        win_y = 320
+                    elif winner == "3":
+                        win_x = 638
+                        win_y = 335
+                    elif winner == "4":
                         win_x = 358
-                        win_y = 380
-                        
+                        win_y = 135
+
                     self.screen.blit(text_surface0, (win_x, win_y))
 
 
