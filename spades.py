@@ -196,8 +196,9 @@ class Game:
                     if event.key == pygame.K_RETURN:
                         if self.game_screen == "start":
                             self.game_screen = "play"
-                            # if self.dealer == 0:
-                            #     print("next players turn")
+                        if self.dealer == 0 and self.game_screen == "play":
+                            print("next players turn")
+                            self.current_player = self.winner
                         
 
 
@@ -286,11 +287,19 @@ class Game:
                 else:
                     player4_label = "Player 4"
 
-                if self.current_player == "you":
+                if self.current_player:
+                    
                     text_surface = self.font2.render(
                         "Your Move, Pls select a card", True, self.BLACK
                     )
                     self.screen.blit(text_surface, (280, 280))
+
+                    if self.current_player != "you":
+                        text_surface = self.font2.render(
+                            "Player" + self.current_player + "has placed a card down", True, self.BLACK
+                        )
+                        self.screen.blit(text_surface, (240, 180))
+
 
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         print(f"Mouse clicked at: {event.pos}")
@@ -375,10 +384,6 @@ class Game:
                             print(self.hands_played_you)
                             self.dealer = 5
 
-                elif self.current_player != "you":
-                    print("next players turn")
-
-
 
                 if  self.dealer == 5:
                     self.screen.blit(text_surface0, (430, 320))
@@ -392,43 +397,47 @@ class Game:
                 if self.dealer == 0:
 
                     self.winner = "4"
-                    self.current_player = self.winner
+                    self.current_player = "0"
+
+                    if self.winner != "0":
                     
-                    if self.winner != "you":
-                        text_surface = self.font2.render(
-                            "Player " + self.winner + " has the highest card, they win this round.", True, self.BLACK
+                        if self.winner == "you":
+
+                            text_surface = self.font2.render(
+                                "You have the highest card, you win!", True, self.BLACK
+                            )
+                            self.screen.blit(text_surface, (270, 240))
+
+                        else: 
+                            
+                            text_surface = self.font2.render(
+                                "Player " + self.winner + " has the highest card, they win this round.", True, self.BLACK
+                            )
+                            self.screen.blit(text_surface, (190, 240))
+
+
+                        text_surface0 = self.font1.render(
+                            "Press Enter to Continue", True, self.BLACK
                         )
-                        self.screen.blit(text_surface, (190, 240))
-                    else: 
-                        text_surface = self.font2.render(
-                            "You have the highest card, you win!", True, self.BLACK
+                        self.screen.blit(text_surface0, (435, 270))
+
+                        text_surface0 = self.font.render(
+                            "____", True, self.YELLOW
                         )
-                        self.screen.blit(text_surface, (270, 240))
+                        if self.winner == "you":
+                            win_x = 358
+                            win_y = 380
+                        elif self.winner == "2":
+                            win_x = 88
+                            win_y = 320
+                        elif self.winner == "3":
+                            win_x = 638
+                            win_y = 335
+                        elif self.winner == "4":
+                            win_x = 358
+                            win_y = 135
 
-
-                    text_surface0 = self.font1.render(
-                        "Press Enter to Continue", True, self.BLACK
-                    )
-                    self.screen.blit(text_surface0, (435, 270))
-
-                    text_surface0 = self.font.render(
-                        "____", True, self.YELLOW
-                    )
-                    if self.winner == "you":
-                        win_x = 358
-                        win_y = 380
-                    elif self.winner == "2":
-                        win_x = 88
-                        win_y = 320
-                    elif self.winner == "3":
-                        win_x = 638
-                        win_y = 335
-                    elif self.winner == "4":
-                        win_x = 358
-                        win_y = 135
-
-                    self.screen.blit(text_surface0, (win_x, win_y))
-
+                        self.screen.blit(text_surface0, (win_x, win_y))
 
                 text_surface0 = self.font1.render(your_label, True, self.BLACK)
                 self.screen.blit(text_surface0, (370, 425))
