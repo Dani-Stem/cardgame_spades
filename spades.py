@@ -114,7 +114,7 @@ class Game:
         pygame.display.set_caption("Spades")
 
         self.current_deck = Deck()
-        self.dealer = 3 #random.randint(1, 4)
+        self.dealer = 1 #random.randint(1, 4)
         self.game_screen = "start"
         self.current_player = ""
         self.winner = ""
@@ -268,11 +268,13 @@ class Game:
 
                 if self.dealer == 1:
                     your_label = "Dealer"
+                    self.current_player = "2"
                 else:
                     your_label = "Your Hand"
 
                 if self.dealer == 2:
                     player2_label = "Dealer"
+                    self.current_player = "4"
                 else:
                     player2_label = "Player 2"
 
@@ -284,113 +286,136 @@ class Game:
 
                 if self.dealer == 4:
                     player4_label = "Dealer"
+                    self.current_player = "3"
                 else:
                     player4_label = "Player 4"
+                
+                text_surface0 = self.font1.render(your_label, True, self.BLACK)
+                self.screen.blit(text_surface0, (370, 425))
+                text_surface0 = self.font1.render(player2_label, True, self.BLACK)
+                self.screen.blit(text_surface0, (100, 230))
+                text_surface0 = self.font1.render(player3_label, True, self.BLACK)
+                self.screen.blit(text_surface0, (660, 230))
+                text_surface0 = self.font1.render(player4_label, True, self.BLACK)
+                self.screen.blit(text_surface0, (375, 30))
 
-                if self.current_player:
+        
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    print(f"Mouse clicked at: {event.pos}")
+
+                    card_pressed = 0
+
+                    if ((event.pos[0] > 60 and event.pos[0] < 110) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                        time.sleep(1)
+                        self.hands_played_you.append(self.your_hand.pop(0))
+                        print(self.hands_played_you)
+                        self.dealer = 5
+
+                    if ((event.pos[0] > 110 and event.pos[0] < 160) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                        time.sleep(1)
+                        self.hands_played_you.append(self.your_hand.pop(1))
+                        print(self.hands_played_you)
+                        self.dealer = 5
+
+                    if ((event.pos[0] > 160 and event.pos[0] < 210) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                        time.sleep(1)
+                        self.hands_played_you.append(self.your_hand.pop(2))
+                        print(self.hands_played_you)
+                        self.dealer = 5
+
+                    if ((event.pos[0] > 210 and event.pos[0] < 260) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                        time.sleep(1)
+                        self.hands_played_you.append(self.your_hand.pop(3))
+                        print(self.hands_played_you)
+                        self.dealer = 5
+
+                    if ((event.pos[0] > 260 and event.pos[0] < 310) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                        time.sleep(1)
+                        self.hands_played_you.append(self.your_hand.pop(4))
+                        print(self.hands_played_you)
+                        self.dealer = 5
+
+                    if ((event.pos[0] > 310 and event.pos[0] < 360) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                        time.sleep(1)
+                        self.hands_played_you.append(self.your_hand.pop(5))
+                        print(self.hands_played_you)
+                        self.dealer = 5
+
+                    if ((event.pos[0] > 360 and event.pos[0] < 410) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                        time.sleep(1)
+                        self.hands_played_you.append(self.your_hand.pop(6))
+                        print(self.hands_played_you)
+                        self.dealer = 5
+
+                    if ((event.pos[0] > 410 and event.pos[0] < 460) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                        time.sleep(1)
+                        self.hands_played_you.append(self.your_hand.pop(7))
+                        print(self.hands_played_you)
+                        self.dealer = 5
+
+                    if ((event.pos[0] > 460 and event.pos[0] < 510) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                        time.sleep(1)
+                        self.hands_played_you.append(self.your_hand.pop(8))
+                        print(self.hands_played_you)
+                        self.dealer = 5
+        
+                    if ((event.pos[0] > 510 and event.pos[0] < 560) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                        time.sleep(1)
+                        self.hands_played_you.append(self.your_hand.pop(9))
+                        print(self.hands_played_you)
+                        self.dealer = 5
+
+                    if ((event.pos[0] > 560 and event.pos[0] < 610) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                        time.sleep(1)
+                        self.hands_played_you.append(self.your_hand.pop(10))
+                        print(self.hands_played_you)
+                        self.dealer = 5
+
+                    if ((event.pos[0] > 610 and event.pos[0] < 660) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                        time.sleep(1)
+                        self.hands_played_you.append(self.your_hand.pop(11))
+                        print(self.hands_played_you)
+                        self.dealer = 5
+
+                    if ((event.pos[0] > 660 and event.pos[0] < 710) and (event.pos[1] > 450 and event.pos[1] < 560)):
+                        time.sleep(1)
+                        self.hands_played_you.append(self.your_hand.pop(12))
+                        print(self.hands_played_you)
+                        self.dealer = 5
+
+                        if self.current_player == "2":
+                            self.dealer = "11"
+                            self.hands_played2.append(self.opp_hand2.pop(0))
+                            self.current_player = "0"
+                        if self.current_player == "3":
+                            self.dealer = "11"
+                            self.hands_played3.append(self.opp_hand2.pop(0))
+                            self.current_player = "0"
+                        if self.current_player == "4":
+                            self.dealer = "11"
+                            self.hands_played4.append(self.opp_hand2.pop(0))
+                            self.current_player = "0"
+
+                if self.current_player == "you":
                     
                     text_surface = self.font2.render(
                         "Your Move, Pls select a card", True, self.BLACK
                     )
                     self.screen.blit(text_surface, (280, 280))
 
-                    if self.current_player != "you":
-                        text_surface = self.font2.render(
-                            "Player" + self.current_player + "has placed a card down", True, self.BLACK
-                        )
-                        self.screen.blit(text_surface, (240, 180))
-
-
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        print(f"Mouse clicked at: {event.pos}")
-
-                        card_pressed = 0
-
-                        if ((event.pos[0] > 60 and event.pos[0] < 110) and (event.pos[1] > 450 and event.pos[1] < 560)):
-                            time.sleep(1)
-                            self.hands_played_you.append(self.your_hand.pop(0))
-                            print(self.hands_played_you)
-                            self.dealer = 5
-
-                        if ((event.pos[0] > 110 and event.pos[0] < 160) and (event.pos[1] > 450 and event.pos[1] < 560)):
-                            time.sleep(1)
-                            self.hands_played_you.append(self.your_hand.pop(1))
-                            print(self.hands_played_you)
-                            self.dealer = 5
-
-                        if ((event.pos[0] > 160 and event.pos[0] < 210) and (event.pos[1] > 450 and event.pos[1] < 560)):
-                            time.sleep(1)
-                            self.hands_played_you.append(self.your_hand.pop(2))
-                            print(self.hands_played_you)
-                            self.dealer = 5
-
-                        if ((event.pos[0] > 210 and event.pos[0] < 260) and (event.pos[1] > 450 and event.pos[1] < 560)):
-                            time.sleep(1)
-                            self.hands_played_you.append(self.your_hand.pop(3))
-                            print(self.hands_played_you)
-                            self.dealer = 5
-
-                        if ((event.pos[0] > 260 and event.pos[0] < 310) and (event.pos[1] > 450 and event.pos[1] < 560)):
-                            time.sleep(1)
-                            self.hands_played_you.append(self.your_hand.pop(4))
-                            print(self.hands_played_you)
-                            self.dealer = 5
-
-                        if ((event.pos[0] > 310 and event.pos[0] < 360) and (event.pos[1] > 450 and event.pos[1] < 560)):
-                            time.sleep(1)
-                            self.hands_played_you.append(self.your_hand.pop(5))
-                            print(self.hands_played_you)
-                            self.dealer = 5
-
-                        if ((event.pos[0] > 360 and event.pos[0] < 410) and (event.pos[1] > 450 and event.pos[1] < 560)):
-                            time.sleep(1)
-                            self.hands_played_you.append(self.your_hand.pop(6))
-                            print(self.hands_played_you)
-                            self.dealer = 5
-
-                        if ((event.pos[0] > 410 and event.pos[0] < 460) and (event.pos[1] > 450 and event.pos[1] < 560)):
-                            time.sleep(1)
-                            self.hands_played_you.append(self.your_hand.pop(7))
-                            print(self.hands_played_you)
-                            self.dealer = 5
-
-                        if ((event.pos[0] > 460 and event.pos[0] < 510) and (event.pos[1] > 450 and event.pos[1] < 560)):
-                            time.sleep(1)
-                            self.hands_played_you.append(self.your_hand.pop(8))
-                            print(self.hands_played_you)
-                            self.dealer = 5
-            
-                        if ((event.pos[0] > 510 and event.pos[0] < 560) and (event.pos[1] > 450 and event.pos[1] < 560)):
-                            time.sleep(1)
-                            self.hands_played_you.append(self.your_hand.pop(9))
-                            print(self.hands_played_you)
-                            self.dealer = 5
-
-                        if ((event.pos[0] > 560 and event.pos[0] < 610) and (event.pos[1] > 450 and event.pos[1] < 560)):
-                            time.sleep(1)
-                            self.hands_played_you.append(self.your_hand.pop(10))
-                            print(self.hands_played_you)
-                            self.dealer = 5
-
-                        if ((event.pos[0] > 610 and event.pos[0] < 660) and (event.pos[1] > 450 and event.pos[1] < 560)):
-                            time.sleep(1)
-                            self.hands_played_you.append(self.your_hand.pop(11))
-                            print(self.hands_played_you)
-                            self.dealer = 5
-
-                        if ((event.pos[0] > 660 and event.pos[0] < 710) and (event.pos[1] > 450 and event.pos[1] < 560)):
-                            time.sleep(1)
-                            self.hands_played_you.append(self.your_hand.pop(12))
-                            print(self.hands_played_you)
-                            self.dealer = 5
-
+                elif self.current_player != "you" and self.current_player != "0":
+                    text_surface = self.font2.render(
+                        "Player" + self.current_player + "has placed a card down", True, self.BLACK
+                    )
+                    self.screen.blit(text_surface, (240, 180))
 
                 if  self.dealer == 5:
-                    self.screen.blit(text_surface0, (430, 320))
-
-                    self.hands_played2.append(self.opp_hand2.pop(0))
-                    self.hands_played3.append(self.opp_hand3.pop(0))
-                    self.hands_played4.append(self.opp_hand4.pop(0))
+                    if self.current_player != "2":
+                        self.hands_played2.append(self.opp_hand2.pop(0))
+                    if self.current_player != "3":
+                        self.hands_played3.append(self.opp_hand3.pop(0))
+                    if self.current_player != "4":
+                        self.hands_played4.append(self.opp_hand4.pop(0))
 
                     self.dealer = 0
 
@@ -415,7 +440,6 @@ class Game:
                             )
                             self.screen.blit(text_surface, (190, 240))
 
-
                         text_surface0 = self.font1.render(
                             "Press Enter to Continue", True, self.BLACK
                         )
@@ -438,15 +462,6 @@ class Game:
                             win_y = 135
 
                         self.screen.blit(text_surface0, (win_x, win_y))
-
-                text_surface0 = self.font1.render(your_label, True, self.BLACK)
-                self.screen.blit(text_surface0, (370, 425))
-                text_surface0 = self.font1.render(player2_label, True, self.BLACK)
-                self.screen.blit(text_surface0, (100, 230))
-                text_surface0 = self.font1.render(player3_label, True, self.BLACK)
-                self.screen.blit(text_surface0, (660, 230))
-                text_surface0 = self.font1.render(player4_label, True, self.BLACK)
-                self.screen.blit(text_surface0, (375, 30))
             
             # Update the display to show changes
             pygame.display.flip()
