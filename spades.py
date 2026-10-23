@@ -299,7 +299,6 @@ class Game:
                 text_surface0 = self.font1.render(player4_label, True, self.BLACK)
                 self.screen.blit(text_surface0, (375, 30))
 
-        
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     print(f"Mouse clicked at: {event.pos}")
 
@@ -383,31 +382,31 @@ class Game:
                         print(self.hands_played_you)
                         self.dealer = 5
 
-                        if self.current_player == "2":
-                            self.dealer = "11"
-                            self.hands_played2.append(self.opp_hand2.pop(0))
-                            self.current_player = "0"
-                        if self.current_player == "3":
-                            self.dealer = "11"
-                            self.hands_played3.append(self.opp_hand2.pop(0))
-                            self.current_player = "0"
-                        if self.current_player == "4":
-                            self.dealer = "11"
-                            self.hands_played4.append(self.opp_hand2.pop(0))
-                            self.current_player = "0"
-
-                if self.current_player == "you":
+                
+                if self.current_player != "you":
                     
                     text_surface = self.font2.render(
                         "Your Move, Pls select a card", True, self.BLACK
                     )
                     self.screen.blit(text_surface, (280, 280))
 
-                elif self.current_player != "you" and self.current_player != "0":
                     text_surface = self.font2.render(
                         "Player" + self.current_player + "has placed a card down", True, self.BLACK
                     )
                     self.screen.blit(text_surface, (240, 180))
+
+                if self.current_player == "2":
+                    self.dealer = "11"
+                    self.hands_played2.append(self.opp_hand2.pop(0))
+                    self.current_player = "0"
+                if self.current_player == "3":
+                    self.dealer = "11"
+                    self.hands_played3.append(self.opp_hand2.pop(0))
+                    self.current_player = "0"
+                if self.current_player == "4":
+                    self.dealer = "11"
+                    self.hands_played4.append(self.opp_hand2.pop(0))
+                    self.current_player = "0"
 
                 if  self.dealer == 5:
                     if self.current_player != "2":
