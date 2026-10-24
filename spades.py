@@ -1,65 +1,13 @@
-# import random
-
-# print("Spades!")
-# input("press enter to play")
-# print("pick your card")
-
-# cards = ["AH","2H","3H", "4H", "5H", "6H", "7H", "8H", "9H", "JH", "QH", "KH","AS","2S","3S", "4S", "5S", "6S", "7S", "8S", "9S", "JS", "QS", "KS", "AD","2D","3D", "4D", "5D", "6D", "7D", "8D", "9D", "JD", "QD", "KD", "AC","2C","3C", "4C", "5C", "6C", "7C", "8C", "9C", "JC", "QC", "KC"]
-
-# shuffle_cards = random.sample(cards, len(cards))
-
-# quarter = len(shuffle_cards) // 4
-
-# your_cards = shuffle_cards[0:quarter]
-# opps_cards2 = shuffle_cards[quarter : quarter * 2]
-# opps_cards3 = shuffle_cards[quarter * 2 : quarter * 3]
-# opps_cards4 = shuffle_cards[quarter * 3 :]
-
-# print(your_cards)
-# print(opps_cards2)
-# print(opps_cards3)
-# print(opps_cards4)
+#1 cards are delt
+#2 dealer is chosen at random 
+#2.5 if dealer is user then skip #3 jump to #4
+#3 dealer places a card Down
+#4 user places a card down 
+#5 rest of the players place a card down
+#6 winner of round is the next dealer
+#7 loop back to #3
 
 
-# players = {1: "You", 2: "Player 2", 3: "Player 3", 4: "Player 4"}
-# first_player = players[random.randint(1, 4)]
-
-# print("Player to the left of the dealer goes first...")
-# print(str(first_player) + " goes first")
-
-# if first_player == "You":
-#     downcard = input("pls select which card you want to play: ")
-#     if downcard not in your_cards:
-#         downcard = input("invalid input, please try again: ")
-
-# elif first_player == "2":
-#     for i in opps_cards2:
-#         if "A" in i and "S" not in i:
-#             downcard = i
-#             break
-#         else:
-#             if "S" not in i:
-#                 downcard = i
-
-# elif first_player == "3":
-#     for i in opps_cards3:
-#         if "A" in i and "S" not in i:
-#             downcard = i
-#             break
-#         else:
-#             if "S" not in i:
-#                 downcard = i
-
-# elif first_player == "4":
-#     for i in opps_cards4:
-#         if "A" in i and "S" not in i:
-#             downcard = i
-#             break
-#         else:
-#             if "S" not in i:
-#                 downcard = i
-
-# print(str(first_player) + " places down card: " + downcard)
 
 import random
 import pygame
@@ -114,11 +62,11 @@ class Game:
         pygame.display.set_caption("Spades")
 
         self.current_deck = Deck()
-        self.dealer = 1 #random.randint(1, 4)
+        self.dealer = 2 #random.randint(1, 4)
         self.game_screen = "start"
-        self.current_player = ""
+        self.card_down = False
+        self.oppcard_down = False
         self.winner = ""
-        self.prompt = ""
         self.suit = ""
         self.value = ""
         self.your_hand, self.opp_hand2, self.opp_hand3, self.opp_hand4 = self.current_deck.deal()
@@ -198,9 +146,10 @@ class Game:
                             self.game_screen = "play"
                         if self.dealer == 0 and self.game_screen == "play":
                             print("next players turn")
-                            self.current_player = self.winner
-                        
-
+                            self.dealer = self.winner
+                            self.card_down = False
+                            self.oppcard_down = False 
+                    
 
             self.screen.fill((50, 205, 50))
 
@@ -233,16 +182,27 @@ class Game:
                 pygame.draw.rect(self.screen, self.WHITE, (356, 48, 84, 114))
                 pygame.draw.rect(self.screen, self.BLUE, (358, 50, 80, 110))
 
+                if self.oppcard_down and self.card_down:
+                    hands_played_x = 1500
+
                 for i in range(len(self.hands_played_you)):
+                    if self.oppcard_down and self.card_down:
+                        hands_played_x = 1500
+                    else:
+                        hands_played_x = 355
                     self.suit, self.value = self.hands_played_you[i]
                     self.draw_card(
-                        self.screen, 355, 300, self.value, self.suit
+                        self.screen, hands_played_x, 300, self.value, self.suit
                     )
                 
                 for i in range(len(self.hands_played2)):
+                    if self.oppcard_down and self.card_down:
+                        hands_played_x = 1500
+                    else:
+                        hands_played_x = 80
                     self.suit, self.value = self.hands_played2[i]
                     self.draw_card(
-                        self.screen, 80, 250, self.value, self.suit
+                        self.screen, hands_played_x, 250, self.value, self.suit
                     )
 
                 for i in range(len(self.hands_played3)):
@@ -257,6 +217,7 @@ class Game:
                         self.screen, 360, 50, self.value, self.suit
                     )
 
+                #drawing your hand
                 card_placement = 60
 
                 for i in range(len(self.your_hand)):
@@ -266,27 +227,24 @@ class Game:
                     )
                     card_placement += 50
 
+                #adding labels based on dealer
                 if self.dealer == 1:
                     your_label = "Dealer"
-                    self.current_player = "2"
                 else:
                     your_label = "Your Hand"
 
                 if self.dealer == 2:
                     player2_label = "Dealer"
-                    self.current_player = "4"
                 else:
                     player2_label = "Player 2"
 
                 if self.dealer == 3:
                     player3_label = "Dealer"
-                    self.current_player = "you"
                 else:
                     player3_label = "Player 3"
 
                 if self.dealer == 4:
                     player4_label = "Dealer"
-                    self.current_player = "3"
                 else:
                     player4_label = "Player 4"
                 
@@ -299,145 +257,131 @@ class Game:
                 text_surface0 = self.font1.render(player4_label, True, self.BLACK)
                 self.screen.blit(text_surface0, (375, 30))
 
+                #coordinates for each card when selected
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     print(f"Mouse clicked at: {event.pos}")
 
-                    card_pressed = 0
+                    self.card_down = True
 
                     if ((event.pos[0] > 60 and event.pos[0] < 110) and (event.pos[1] > 450 and event.pos[1] < 560)):
                         time.sleep(1)
                         self.hands_played_you.append(self.your_hand.pop(0))
                         print(self.hands_played_you)
-                        self.dealer = 5
 
                     if ((event.pos[0] > 110 and event.pos[0] < 160) and (event.pos[1] > 450 and event.pos[1] < 560)):
                         time.sleep(1)
                         self.hands_played_you.append(self.your_hand.pop(1))
                         print(self.hands_played_you)
-                        self.dealer = 5
 
                     if ((event.pos[0] > 160 and event.pos[0] < 210) and (event.pos[1] > 450 and event.pos[1] < 560)):
                         time.sleep(1)
                         self.hands_played_you.append(self.your_hand.pop(2))
                         print(self.hands_played_you)
-                        self.dealer = 5
 
                     if ((event.pos[0] > 210 and event.pos[0] < 260) and (event.pos[1] > 450 and event.pos[1] < 560)):
                         time.sleep(1)
                         self.hands_played_you.append(self.your_hand.pop(3))
                         print(self.hands_played_you)
-                        self.dealer = 5
 
                     if ((event.pos[0] > 260 and event.pos[0] < 310) and (event.pos[1] > 450 and event.pos[1] < 560)):
                         time.sleep(1)
                         self.hands_played_you.append(self.your_hand.pop(4))
                         print(self.hands_played_you)
-                        self.dealer = 5
 
                     if ((event.pos[0] > 310 and event.pos[0] < 360) and (event.pos[1] > 450 and event.pos[1] < 560)):
                         time.sleep(1)
                         self.hands_played_you.append(self.your_hand.pop(5))
                         print(self.hands_played_you)
-                        self.dealer = 5
 
                     if ((event.pos[0] > 360 and event.pos[0] < 410) and (event.pos[1] > 450 and event.pos[1] < 560)):
                         time.sleep(1)
                         self.hands_played_you.append(self.your_hand.pop(6))
                         print(self.hands_played_you)
-                        self.dealer = 5
 
                     if ((event.pos[0] > 410 and event.pos[0] < 460) and (event.pos[1] > 450 and event.pos[1] < 560)):
                         time.sleep(1)
                         self.hands_played_you.append(self.your_hand.pop(7))
                         print(self.hands_played_you)
-                        self.dealer = 5
 
                     if ((event.pos[0] > 460 and event.pos[0] < 510) and (event.pos[1] > 450 and event.pos[1] < 560)):
                         time.sleep(1)
                         self.hands_played_you.append(self.your_hand.pop(8))
                         print(self.hands_played_you)
-                        self.dealer = 5
         
                     if ((event.pos[0] > 510 and event.pos[0] < 560) and (event.pos[1] > 450 and event.pos[1] < 560)):
                         time.sleep(1)
                         self.hands_played_you.append(self.your_hand.pop(9))
                         print(self.hands_played_you)
-                        self.dealer = 5
 
                     if ((event.pos[0] > 560 and event.pos[0] < 610) and (event.pos[1] > 450 and event.pos[1] < 560)):
                         time.sleep(1)
                         self.hands_played_you.append(self.your_hand.pop(10))
                         print(self.hands_played_you)
-                        self.dealer = 5
 
                     if ((event.pos[0] > 610 and event.pos[0] < 660) and (event.pos[1] > 450 and event.pos[1] < 560)):
                         time.sleep(1)
                         self.hands_played_you.append(self.your_hand.pop(11))
                         print(self.hands_played_you)
-                        self.dealer = 5
 
                     if ((event.pos[0] > 660 and event.pos[0] < 710) and (event.pos[1] > 450 and event.pos[1] < 560)):
                         time.sleep(1)
                         self.hands_played_you.append(self.your_hand.pop(12))
                         print(self.hands_played_you)
-                        self.dealer = 5
 
-                
-                if self.current_player != "you":
+                if self.dealer == 1:
                     
                     text_surface = self.font2.render(
                         "Your Move, Pls select a card", True, self.BLACK
                     )
                     self.screen.blit(text_surface, (280, 280))
 
+                elif self.card_down == False:
+
                     text_surface = self.font2.render(
-                        "Player" + self.current_player + "has placed a card down", True, self.BLACK
+                        "Player " + str(self.dealer) + " has placed a card down", True, self.BLACK
                     )
                     self.screen.blit(text_surface, (240, 180))
 
-                if self.current_player == "2":
-                    self.dealer = "11"
-                    self.hands_played2.append(self.opp_hand2.pop(0))
-                    self.current_player = "0"
-                if self.current_player == "3":
-                    self.dealer = "11"
-                    self.hands_played3.append(self.opp_hand2.pop(0))
-                    self.current_player = "0"
-                if self.current_player == "4":
-                    self.dealer = "11"
-                    self.hands_played4.append(self.opp_hand2.pop(0))
-                    self.current_player = "0"
+                    if self.oppcard_down == False:
+                        if self.dealer == 2: 
+                            self.hands_played2.append(self.opp_hand2.pop(0))
+                            self.oppcard_down = True
+                        if self.dealer == 3:
+                            self.hands_played3.append(self.opp_hand2.pop(0))
+                            self.oppcard_down = True
+                        if self.dealer == 4:
+                            self.hands_played4.append(self.opp_hand2.pop(0))
+                            self.oppcard_down = True
 
-                if  self.dealer == 5:
-                    if self.current_player != "2":
+                if self.card_down and self.dealer != 0: 
+
+                    if self.dealer != 2:
                         self.hands_played2.append(self.opp_hand2.pop(0))
-                    if self.current_player != "3":
+                    if self.dealer != 3:
                         self.hands_played3.append(self.opp_hand3.pop(0))
-                    if self.current_player != "4":
+                    if self.dealer != 4:
                         self.hands_played4.append(self.opp_hand4.pop(0))
 
                     self.dealer = 0
 
+
                 if self.dealer == 0:
 
-                    self.winner = "4"
-                    self.current_player = "0"
-
-                    if self.winner != "0":
+                    self.winner = 4
                     
-                        if self.winner == "you":
+                    if self.winner == 1:
 
-                            text_surface = self.font2.render(
-                                "You have the highest card, you win!", True, self.BLACK
-                            )
-                            self.screen.blit(text_surface, (270, 240))
+                        text_surface = self.font2.render(
+                            "You have the highest card, you win!", True, self.BLACK
+                        )
+                        self.screen.blit(text_surface, (270, 240))
 
-                        else: 
-                            
-                            text_surface = self.font2.render(
-                                "Player " + self.winner + " has the highest card, they win this round.", True, self.BLACK
-                            )
-                            self.screen.blit(text_surface, (190, 240))
+                    else: 
+                        
+                        text_surface = self.font2.render(
+                            "Player " + str(self.winner) + " has the highest card, they win this round.", True, self.BLACK
+                        )
+                        self.screen.blit(text_surface, (190, 240))
 
                         text_surface0 = self.font1.render(
                             "Press Enter to Continue", True, self.BLACK
@@ -447,16 +391,16 @@ class Game:
                         text_surface0 = self.font.render(
                             "____", True, self.YELLOW
                         )
-                        if self.winner == "you":
+                        if self.winner == 1:
                             win_x = 358
                             win_y = 380
-                        elif self.winner == "2":
+                        elif self.winner == 2:
                             win_x = 88
                             win_y = 320
-                        elif self.winner == "3":
+                        elif self.winner == 3:
                             win_x = 638
                             win_y = 335
-                        elif self.winner == "4":
+                        elif self.winner == 4:
                             win_x = 358
                             win_y = 135
 
