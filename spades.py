@@ -186,24 +186,18 @@ class Game:
                     hands_played_x = 1500
 
                 for i in range(len(self.hands_played_you)):
-                    if self.oppcard_down and self.card_down:
-                        hands_played_x = 1500
-                    else:
-                        hands_played_x = 355
                     self.suit, self.value = self.hands_played_you[i]
-                    self.draw_card(
-                        self.screen, hands_played_x, 300, self.value, self.suit
-                    )
+                    if self.oppcard_down == False and self.card_down == False:
+                        self.draw_card(
+                            self.screen, 355, 300, self.value, self.suit
+                        )
                 
                 for i in range(len(self.hands_played2)):
-                    if self.oppcard_down and self.card_down:
-                        hands_played_x = 1500
-                    else:
-                        hands_played_x = 80
                     self.suit, self.value = self.hands_played2[i]
-                    self.draw_card(
-                        self.screen, hands_played_x, 250, self.value, self.suit
-                    )
+                    if self.oppcard_down == False and self.card_down == False:
+                        self.draw_card(
+                            self.screen, 80, 250, self.value, self.suit
+                        )
 
                 for i in range(len(self.hands_played3)):
                     self.suit, self.value = self.hands_played3[i]
