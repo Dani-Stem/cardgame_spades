@@ -72,6 +72,8 @@ class Game:
         self.game_screen = "start"
         self.card_down = False
         self.oppcard_down = False
+        self.highest_card_suit = ""
+        self.highest_card_value = ""
         self.winner = ""
         self.suit = ""
         self.value = ""
@@ -159,6 +161,8 @@ class Game:
                             self.hands_played2.clear()
                             self.hands_played3.clear()
                             self.hands_played4.clear()
+                            self.highest_card_suit = ""
+                            self.highest_card_value = ""
                     
             self.screen.fill((50, 205, 50))
 
@@ -329,6 +333,14 @@ class Game:
                         self.hands_played_you.append(self.your_hand.pop(12))
                         print(self.hands_played_you)
 
+                    if self.dealer == 1:
+
+                        self.highest_card_value = self.hands_played_you[0][1]
+                        self.highest_card_suit = self.hands_played_you[0][0]
+                        print(self.highest_card_suit)
+                        print(self.highest_card_value)
+
+
                 # if its your play 
                 if self.dealer == 1:
                     
@@ -350,12 +362,18 @@ class Game:
                         if self.dealer == 2: 
                             self.hands_played2.append(self.opp_hand2.pop(0))
                             self.oppcard_down = True
+                            self.highest_card_suit = self.hands_played2[0][0]
+                            self.highest_card_value = self.hands_played2[0][1]
                         if self.dealer == 3:
                             self.hands_played3.append(self.opp_hand2.pop(0))
                             self.oppcard_down = True
+                            self.highest_card_suit = self.hands_played3[0][0]
+                            self.highest_card_value = self.hands_played3[0][1]
                         if self.dealer == 4:
                             self.hands_played4.append(self.opp_hand2.pop(0))
                             self.oppcard_down = True
+                            self.highest_card_suit = self.hands_played4[0][0]
+                            self.highest_card_value = self.hands_played4[0][1]
 
                 if self.card_down and self.dealer != 0: 
 
@@ -370,8 +388,13 @@ class Game:
 
 
                 if self.dealer == 0:
+                    you_played = self.hands_played_you[0][1]
+                    two_played = self.hands_played2[0][1]
+                    three_played = self.hands_played3[0][1]
+                    four_played = self.hands_played4[0][1]
 
-                    self.winner = 4 #which ever card is the highest 
+                    self.winner = max(int(you_played), int(two_played), int(three_played), int(four_played))
+                    print(self.winner)
 
                     #if your the winner
                     if self.winner == 1:
