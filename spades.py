@@ -7,6 +7,12 @@
 #6 winner of round is the next dealer
 #7 loop back to #3
 
+# a card is played
+# the rest of the players play a card of that same suit
+# if you do not have a card of the same suit play a spade or thow away a card
+
+#winner is the highest spade or the highest card of the played suit
+
 
 
 import random
