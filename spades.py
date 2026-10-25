@@ -149,8 +149,11 @@ class Game:
                             self.dealer = self.winner
                             self.card_down = False
                             self.oppcard_down = False 
+                            self.hands_played_you.clear()
+                            self.hands_played2.clear()
+                            self.hands_played3.clear()
+                            self.hands_played4.clear()
                     
-
             self.screen.fill((50, 205, 50))
 
             if self.game_screen == "start":
@@ -167,6 +170,8 @@ class Game:
                 self.screen.blit(text_surface0, (255, 100))
 
             if self.game_screen == "play":
+
+                # draw the cards for each hand
                 pygame.draw.rect(self.screen, self.WHITE, (78, 248, 84, 114))
                 pygame.draw.rect(self.screen, self.BLUE, (80, 250, 80, 110))
                 pygame.draw.rect(self.screen, self.WHITE, (76, 248, 84, 114))
@@ -182,22 +187,18 @@ class Game:
                 pygame.draw.rect(self.screen, self.WHITE, (356, 48, 84, 114))
                 pygame.draw.rect(self.screen, self.BLUE, (358, 50, 80, 110))
 
-                if self.oppcard_down and self.card_down:
-                    hands_played_x = 1500
-
+                # draw the cards that each player is playing
                 for i in range(len(self.hands_played_you)):
                     self.suit, self.value = self.hands_played_you[i]
-                    if self.oppcard_down == False and self.card_down == False:
-                        self.draw_card(
-                            self.screen, 355, 300, self.value, self.suit
-                        )
+                    self.draw_card(
+                        self.screen, 355, 300, self.value, self.suit
+                    )
                 
                 for i in range(len(self.hands_played2)):
                     self.suit, self.value = self.hands_played2[i]
-                    if self.oppcard_down == False and self.card_down == False:
-                        self.draw_card(
-                            self.screen, 80, 250, self.value, self.suit
-                        )
+                    self.draw_card(
+                        self.screen, 80, 250, self.value, self.suit
+                    )
 
                 for i in range(len(self.hands_played3)):
                     self.suit, self.value = self.hands_played3[i]
@@ -251,7 +252,7 @@ class Game:
                 text_surface0 = self.font1.render(player4_label, True, self.BLACK)
                 self.screen.blit(text_surface0, (375, 30))
 
-                #coordinates for each card when selected
+                #coordinates for each card in your hand when selected
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     print(f"Mouse clicked at: {event.pos}")
 
@@ -322,6 +323,7 @@ class Game:
                         self.hands_played_you.append(self.your_hand.pop(12))
                         print(self.hands_played_you)
 
+                # if its your play 
                 if self.dealer == 1:
                     
                     text_surface = self.font2.render(
@@ -329,6 +331,7 @@ class Game:
                     )
                     self.screen.blit(text_surface, (280, 280))
 
+                # if its not your play but you havent picked a card yet 
                 elif self.card_down == False:
 
                     text_surface = self.font2.render(
@@ -336,6 +339,7 @@ class Game:
                     )
                     self.screen.blit(text_surface, (240, 180))
 
+                    #adding card for current players play 
                     if self.oppcard_down == False:
                         if self.dealer == 2: 
                             self.hands_played2.append(self.opp_hand2.pop(0))
@@ -361,8 +365,9 @@ class Game:
 
                 if self.dealer == 0:
 
-                    self.winner = 4
-                    
+                    self.winner = 4 #which ever card is the highest 
+
+                    #if your the winner
                     if self.winner == 1:
 
                         text_surface = self.font2.render(
@@ -370,6 +375,7 @@ class Game:
                         )
                         self.screen.blit(text_surface, (270, 240))
 
+                    # if youre not the winner
                     else: 
                         
                         text_surface = self.font2.render(
@@ -377,29 +383,29 @@ class Game:
                         )
                         self.screen.blit(text_surface, (190, 240))
 
-                        text_surface0 = self.font1.render(
-                            "Press Enter to Continue", True, self.BLACK
-                        )
-                        self.screen.blit(text_surface0, (435, 270))
+                    text_surface0 = self.font1.render(
+                        "Press Enter to Continue", True, self.BLACK
+                    )
+                    self.screen.blit(text_surface0, (435, 270))
 
-                        text_surface0 = self.font.render(
-                            "____", True, self.YELLOW
-                        )
-                        if self.winner == 1:
-                            win_x = 358
-                            win_y = 380
-                        elif self.winner == 2:
-                            win_x = 88
-                            win_y = 320
-                        elif self.winner == 3:
-                            win_x = 638
-                            win_y = 335
-                        elif self.winner == 4:
-                            win_x = 358
-                            win_y = 135
+                    text_surface0 = self.font.render(
+                        "____", True, self.YELLOW
+                    )
+                    if self.winner == 1:
+                        win_x = 358
+                        win_y = 380
+                    elif self.winner == 2:
+                        win_x = 88
+                        win_y = 320
+                    elif self.winner == 3:
+                        win_x = 638
+                        win_y = 335
+                    elif self.winner == 4:
+                        win_x = 358
+                        win_y = 135
 
-                        self.screen.blit(text_surface0, (win_x, win_y))
-            
+                    self.screen.blit(text_surface0, (win_x, win_y))
+        
             # Update the display to show changes
             pygame.display.flip()
 
