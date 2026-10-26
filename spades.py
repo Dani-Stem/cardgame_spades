@@ -70,8 +70,7 @@ class Game:
         self.game_screen = "start"
         self.card_down = False
         self.oppcard_down = False
-        self.highest_card_suit = ""
-        self.highest_card_value = ""
+        self.current_card_suit = ""
         self.you_played = ""
         self.two_played = ""
         self.three_played = ""
@@ -150,10 +149,12 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+                # what happens when enter is pressed
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         if self.game_screen == "start":
                             self.game_screen = "play"
+                        # reset round
                         if self.dealer == 0 and self.game_screen == "play":
                             print("next players turn")
                             self.dealer = self.winner
@@ -163,11 +164,11 @@ class Game:
                             self.hands_played2.clear()
                             self.hands_played3.clear()
                             self.hands_played4.clear()
-                            self.highest_card_suit = ""
-                            self.highest_card_value = ""
+                            self.current_card_suit = ""
                     
             self.screen.fill((50, 205, 50))
 
+            # start screen
             if self.game_screen == "start":
                 pygame.draw.rect(self.screen, self.WHITE, (348, 248, 84, 114))
                 pygame.draw.rect(self.screen, self.BLUE, (350, 250, 80, 110))
@@ -181,6 +182,7 @@ class Game:
                 )
                 self.screen.blit(text_surface0, (255, 100))
 
+            # play screen
             if self.game_screen == "play":
 
                 # draw the cards for each hand
@@ -335,14 +337,6 @@ class Game:
                         self.hands_played_you.append(self.your_hand.pop(12))
                         print(self.hands_played_you)
 
-                    if self.dealer == 1:
-
-                        self.highest_card_value = self.hands_played_you[0][1]
-                        self.highest_card_suit = self.hands_played_you[0][0]
-                        print(self.highest_card_suit)
-                        print(self.highest_card_value)
-
-
                 # if its your play 
                 if self.dealer == 1:
                     
@@ -364,31 +358,68 @@ class Game:
                         if self.dealer == 2: 
                             self.hands_played2.append(self.opp_hand2.pop(0))
                             self.oppcard_down = True
-                            self.highest_card_suit = self.hands_played2[0][0]
-                            self.highest_card_value = self.hands_played2[0][1]
+                            self.current_card_suit = self.hands_played2[0][0]
                         if self.dealer == 3:
                             self.hands_played3.append(self.opp_hand2.pop(0))
                             self.oppcard_down = True
-                            self.highest_card_suit = self.hands_played3[0][0]
-                            self.highest_card_value = self.hands_played3[0][1]
+                            self.current_card_suit = self.hands_played3[0][0]
                         if self.dealer == 4:
                             self.hands_played4.append(self.opp_hand2.pop(0))
                             self.oppcard_down = True
-                            self.highest_card_suit = self.hands_played4[0][0]
-                            self.highest_card_value = self.hands_played4[0][1]
+                            self.current_card_suit = self.hands_played4[0][0]
 
                 if self.card_down and self.dealer != 0: 
 
+                    # the rest if the players place a card down 
                     if self.dealer != 2:
-                        self.hands_played2.append(self.opp_hand2.pop(0))
+                        target = self.current_card_suit
+                        result2 = [row for row in self.opp_hand2 if target in row]
+                        print("result: " + str(result2))
+                        if result2 == []:
+                            target = "Spades"
+                            result2 = [row for row in self.opp_hand2 if target in row]
+                            print("result: " + str(result4))
+                        if result2 == []:
+                            result2 = self.opp_hand2[0][0]
+                            print("result: " + str(result2))
+                            
+                        self.hands_played2.append(result2.pop(0))
+
                     if self.dealer != 3:
-                        self.hands_played3.append(self.opp_hand3.pop(0))
+                        target = self.current_card_suit
+                        result3 = [row for row in self.opp_hand3 if target in row]
+                        print("result: " + str(result3))
+                        if result3 == []:
+                            target = "Spades"
+                            result3 = [row for row in self.opp_hand3 if target in row]
+                            print("result: " + str(result3))
+                        if result3 == []:
+                            result4 = self.opp_hand4[0][0]
+                            print("result: " + str(result3))
+                            
+                        self.hands_played3.append(result3.pop(0))
+
                     if self.dealer != 4:
-                        self.hands_played4.append(self.opp_hand4.pop(0))
+                        target = self.current_card_suit
+                        result4 = [row for row in self.opp_hand4 if target in row]
+                        print("result: " + str(result4))
+                        if result4 == []:
+                            target = "Spades"
+                            result4 = [row for row in self.opp_hand4 if target in row]
+                            print("result: " + str(result4))
+                        if result4 == []:
+                            result4 = self.opp_hand4[0][0]
+                            print("result: " + str(result4))
+                            
+                        self.hands_played4.append(result4.pop(0))
+
+
+                            
+
 
                     self.dealer = 0
 
-
+                # converting the jqka to int values
                 if self.dealer == 0:
                     self.you_played = self.hands_played_you[0][1]
                     if self.you_played == "J":
