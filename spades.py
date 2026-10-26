@@ -30,7 +30,6 @@ class Card:
     def __repr__(self):
         return f"{self.value} of {self.suit}"
 
-
 class Deck:
     def __init__(self):
         self.cards = []
@@ -60,7 +59,6 @@ class Deck:
 
         return your_hand, opp_hand2, opp_hand3, opp_hand4
 
-
 class Game:
     def __init__(self):
         pygame.init()
@@ -74,6 +72,10 @@ class Game:
         self.oppcard_down = False
         self.highest_card_suit = ""
         self.highest_card_value = ""
+        self.you_played = ""
+        self.two_played = ""
+        self.three_played = ""
+        self.four_played = ""
         self.winner = ""
         self.suit = ""
         self.value = ""
@@ -388,13 +390,53 @@ class Game:
 
 
                 if self.dealer == 0:
-                    you_played = self.hands_played_you[0][1]
-                    two_played = self.hands_played2[0][1]
-                    three_played = self.hands_played3[0][1]
-                    four_played = self.hands_played4[0][1]
+                    self.you_played = self.hands_played_you[0][1]
+                    if self.you_played == "J":
+                        self.you_played = "11"
+                    elif self.you_played == "Q":
+                        self.you_played = "12"
+                    elif self.you_played == "K":
+                        self.you_played = "13"
+                    elif self.you_played == "A":
+                        self.you_played = "14"
+                    self.two_played = self.hands_played2[0][1]
+                    if self.two_played == "J":
+                        self.two_played = "11"
+                    elif self.two_played == "Q":
+                        self.two_played = "12"
+                    elif self.two_played == "K":
+                        self.two_played = "13"
+                    elif self.two_played == "A":
+                        self.two_played = "14"
+                    self.three_played = self.hands_played3[0][1]
+                    if self.three_played == "J":
+                        self.three_played = "11"
+                    elif self.three_played == "Q":
+                        self.three_played = "12"
+                    elif self.three_played == "K":
+                        self.three_played = "13"
+                    elif self.three_played == "A":
+                        self.three_played = "14"
+                    self.four_played = self.hands_played4[0][1]
+                    if self.four_played == "J":
+                        self.four_played = "11"
+                    elif self.four_played == "Q":
+                        self.four_played = "12"
+                    elif self.four_played == "K":
+                        self.four_played = "13"
+                    elif self.four_played == "A":
+                        self.four_played = "14"
 
-                    self.winner = max(int(you_played), int(two_played), int(three_played), int(four_played))
-                    print(self.winner)
+                    winning_card = max(int(self.you_played), int(self.two_played), int(self.three_played), int(self.four_played))
+
+                    if winning_card == int(self.you_played):
+                        self.winner = 1
+                    if winning_card == int(self.two_played):
+                        self.winner = 2
+                    if winning_card == int(self.three_played):
+                        self.winner = 3
+                    if winning_card == int(self.four_played):
+                        self.winner = 4
 
                     #if your the winner
                     if self.winner == 1:
@@ -432,6 +474,7 @@ class Game:
                     elif self.winner == 4:
                         win_x = 358
                         win_y = 135
+                        
 
                     self.screen.blit(text_surface0, (win_x, win_y))
         
