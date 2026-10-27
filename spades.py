@@ -13,7 +13,7 @@
 
 #winner is the highest spade or the highest card of the played suit
 
-
+# winner of the whole game is whoever has the most wins
 
 import random
 import pygame
@@ -75,6 +75,10 @@ class Game:
         self.two_played = ""
         self.three_played = ""
         self.four_played = ""
+        self.wins1 = 0 
+        self.wins2 = 0 
+        self.wins3 = 0 
+        self.wins4 = 0 
         self.winner = ""
         self.suit = ""
         self.value = ""
@@ -152,11 +156,21 @@ class Game:
                 # what happens when enter is pressed
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
+                        if self.game_screen == "finish":
+                            self.game_screen = "start"
                         if self.game_screen == "start":
                             self.game_screen = "play"
                         # reset round
                         if self.dealer == 0 and self.game_screen == "play":
                             print("next players turn")
+                            if self.winner == 1:
+                                self.wins1 += 1
+                            if self.winner == 2:
+                                self.wins1 += 2
+                            if self.winner == 3:
+                                self.wins1 += 3
+                            if self.winner == 4:
+                                self.wins1 += 4
                             self.dealer = self.winner
                             self.card_down = False
                             self.oppcard_down = False 
@@ -367,7 +381,7 @@ class Game:
                             self.hands_played4.append(self.opp_hand2.pop(0))
                             self.oppcard_down = True
                             self.current_card_suit = self.hands_played4[0][0]
-
+                print(self.current_card_suit)
                 if self.card_down and self.dealer != 0: 
 
                     # the rest if the players place a card down 
@@ -378,7 +392,7 @@ class Game:
                         if result2 == []:
                             target = "Spades"
                             result2 = [row for row in self.opp_hand2 if target in row]
-                            print("result: " + str(result4))
+                            print("result: " + str(result2))
                         if result2 == []:
                             result2 = self.opp_hand2[0][0]
                             print("result: " + str(result2))
@@ -394,7 +408,7 @@ class Game:
                             result3 = [row for row in self.opp_hand3 if target in row]
                             print("result: " + str(result3))
                         if result3 == []:
-                            result4 = self.opp_hand4[0][0]
+                            result3 = self.opp_hand3[0][0]
                             print("result: " + str(result3))
                             
                         self.hands_played3.append(result3.pop(0))
@@ -412,10 +426,6 @@ class Game:
                             print("result: " + str(result4))
                             
                         self.hands_played4.append(result4.pop(0))
-
-
-                            
-
 
                     self.dealer = 0
 
@@ -508,6 +518,22 @@ class Game:
                         
 
                     self.screen.blit(text_surface0, (win_x, win_y))
+                    print(len(self.your_hand))
+                    if len(self.your_hand) == 0: 
+                        self.game_screen = "finish"
+
+            if self.game_screen == "finish":
+                self.winner = max(self.wins1, self.wins2, self.wins3, self.wins4,)
+
+                text_surface = self.font2.render(
+                    "Player " + str(self.winner) + " won the most rounds, they win the game", True, self.BLACK
+                )
+                self.screen.blit(text_surface, (190, 240))
+
+                text_surface0 = self.font1.render(
+                    "Press Enter to play again", True, self.BLACK
+                )
+                self.screen.blit(text_surface0, (435, 270))
         
             # Update the display to show changes
             pygame.display.flip()
