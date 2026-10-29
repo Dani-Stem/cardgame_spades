@@ -166,11 +166,11 @@ class Game:
                             if self.winner == 1:
                                 self.wins1 += 1
                             if self.winner == 2:
-                                self.wins1 += 2
+                                self.wins2 += 1
                             if self.winner == 3:
-                                self.wins1 += 3
+                                self.wins3 += 1
                             if self.winner == 4:
-                                self.wins1 += 4
+                                self.wins4 += 1
                             self.dealer = self.winner
                             self.card_down = False
                             self.oppcard_down = False 
@@ -221,24 +221,28 @@ class Game:
                     self.draw_card(
                         self.screen, 355, 300, self.value, self.suit
                     )
+                    break
                 
                 for i in range(len(self.hands_played2)):
                     self.suit, self.value = self.hands_played2[i]
                     self.draw_card(
                         self.screen, 80, 250, self.value, self.suit
                     )
+                    break
 
                 for i in range(len(self.hands_played3)):
                     self.suit, self.value = self.hands_played3[i]
                     self.draw_card(
                         self.screen, 640, 250, self.value, self.suit
                     )
+                    break
 
                 for i in range(len(self.hands_played4)):
                     self.suit, self.value = self.hands_played4[i]
                     self.draw_card(
                         self.screen, 360, 50, self.value, self.suit
                     )
+                    break
 
                 #drawing your hand
                 card_placement = 60
@@ -515,7 +519,6 @@ class Game:
                     elif self.winner == 4:
                         win_x = 358
                         win_y = 135
-                        
 
                     self.screen.blit(text_surface0, (win_x, win_y))
                     print(len(self.your_hand))
@@ -523,10 +526,20 @@ class Game:
                         self.game_screen = "finish"
 
             if self.game_screen == "finish":
-                self.winner = max(self.wins1, self.wins2, self.wins3, self.wins4,)
+
+                if (((self.wins1 > self.wins2) and (self.wins1 > self.wins3)) and (self.wins1 > self.wins4)):
+                    self.winner = 1
+                if (((self.wins2 > self.wins1) and (self.wins2 > self.wins3)) and (self.wins2 > self.wins4)):
+                    self.winner = 2
+                if (((self.wins3 > self.wins1) and (self.wins3 > self.wins2)) and (self.wins3 > self.wins4)):
+                    self.winner = 3
+                if (((self.wins4 > self.wins1) and (self.wins4 > self.wins2)) and (self.wins4 > self.wins3)):
+                    self.winner = 4
+
+                wins = max(self.wins1, self.wins2, self.wins3, self.wins4,)
 
                 text_surface = self.font2.render(
-                    "Player " + str(self.winner) + " won the most rounds, they win the game", True, self.BLACK
+                    "Player " + str(self.winner) + " won " + str(wins) + " rounds, they win the game", True, self.BLACK
                 )
                 self.screen.blit(text_surface, (190, 240))
 
